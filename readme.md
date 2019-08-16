@@ -44,3 +44,31 @@ store.dispatch({
 })
 ```
 
+## Immutable
+
+Because Object are reference (pointer), for state we need to create a copy and save that
+```javascript
+state = {
+    result: state.result,
+    lastValues: state.lastValues,
+    //Override
+    result: state.result + action.payload
+};
+```
+or
+```javascript
+state = {
+    ...state,
+    //Override
+    result: state.result + action.payload
+};
+```
+Or with object
+```javascript
+state = {
+    ...state,
+    result: state.result + action.payload,
+    lastValues: [...state.lastValues, action.payload]
+};
+```
+

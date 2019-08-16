@@ -32,17 +32,35 @@
 
 import { createStore } from "redux";
 
+const initialState = {
+    result: 1,
+    lastValues: [],
+    username: "Max"
+}
+
 //REDUCER
 // Takes action and does someting (change the state)
 //takes to arrgument
 //has to return always state
-const reducer = (state, action) => {
+//default value with inital state
+const reducer = (state = initialState, action) => {
     switch (action.type) {
         case "ADD":
-            state = state + action.payload
+            state = {
+                ...state,
+                //Override
+                result: state.result + action.payload,
+                lastValues: [...state.lastValues, action.payload]
+            };
+
+            
             break;
         case "SUBSTRACT":
-            state = state - action.payload
+                state = {
+                    ...state,
+                    result: state.result - action.payload,
+                    lastValues: [...state.lastValues, action.payload]
+                };
             break;
     };
     return state;
@@ -50,7 +68,7 @@ const reducer = (state, action) => {
 
 //STORE
 //can have mutlipe reducer
-const store = createStore(reducer,1); //(reducer, InitalState)
+const store = createStore(reducer); //(reducer, InitalState)
 
 //SUBSCRIE
 store.subscribe(()=> {
