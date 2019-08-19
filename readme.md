@@ -89,4 +89,30 @@ const userReducer = (state = {
         case "SET_NAME":
             ...
 ```
+## Middleware
+You can hook between the action.
+Create a big fat Arrow Fuction chain 
+```javascript
+//Middleware function
+const myLogger = (store)=> (next) => (action)=> {
+    console.log("Logged Action: ", action);
+    next(action); //Does not go to the reducer without the next.
+}
+```
+And add it to the third argument. The second argument is the state, but this will get overwriten by the reducer
+```javascript
+//STORE
+const store = createStore(combineReducers({matReducer, userReducer}),{},applyMiddleware(myLogger)); 
+```
+## Third party middleware.
+npm install redux-logger --save
+```javascript
+import logger from "redux-logger"
+
+const store = createStore(combineReducers(
+    {matReducer, userReducer}),
+    {},
+    applyMiddleware( logger)
+); 
+```
 

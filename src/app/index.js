@@ -30,8 +30,9 @@
 
 // render(<App />, window.document.getElementById('app'));
 
-import { createStore, combineReducers } from "redux";
+import { createStore, combineReducers, applyMiddleware } from "redux";
 import { maxHeaderSize } from "http";
+import logger from "redux-logger"
 
 
 
@@ -88,13 +89,22 @@ const userReducer = (state = {
     return state;
 };
 
+//Fat Arrow Fuction chain together
+const myLogger = (store)=> (next) => (action)=> {
+    console.log("Logged Action: ", action);
+    next(action); //Does not go to the reducer without the next.
+}
+
 //STORE
-//can have mutlipe reducer
-const store = createStore(combineReducers({matReducer, userReducer})); //(reducer, InitalState)
+const store = createStore(combineReducers(
+    {matReducer, userReducer}),
+    {},
+    applyMiddleware( logger)
+); 
 
 //SUBSCRIE
 store.subscribe(()=> {
-    console.log("Store updated", store.getState());
+    //console.log("Store updated", store.getState());
 });
 
 //ACTION
