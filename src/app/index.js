@@ -30,20 +30,20 @@
 
 // render(<App />, window.document.getElementById('app'));
 
-import { createStore } from "redux";
+import { createStore, combineReducers } from "redux";
+import { maxHeaderSize } from "http";
 
-const initialState = {
-    result: 1,
-    lastValues: [],
-    username: "Max"
-}
+
 
 //REDUCER
 // Takes action and does someting (change the state)
 //takes to arrgument
 //has to return always state
 //default value with inital state
-const reducer = (state = initialState, action) => {
+const matReducer = (state = {
+    result: 1,
+    lastValues: []
+}, action) => {
     switch (action.type) {
         case "ADD":
             state = {
@@ -64,11 +64,33 @@ const reducer = (state = initialState, action) => {
             break;
     };
     return state;
-}
+};
+
+const userReducer = (state = {
+    name: "Max", age: 27
+}, action) => {
+    switch (action.type) {
+        case "SET_NAME":
+            state = {
+                ...state,
+                name: action.playload
+            };
+
+            
+            break;
+        case "SET_AGE":
+                state = {
+                    ...state,
+                    age: action.payload
+                };
+            break;
+    };
+    return state;
+};
 
 //STORE
 //can have mutlipe reducer
-const store = createStore(reducer); //(reducer, InitalState)
+const store = createStore(combineReducers({matReducer, userReducer})); //(reducer, InitalState)
 
 //SUBSCRIE
 store.subscribe(()=> {
@@ -91,3 +113,10 @@ store.dispatch({
     type: "SUBSTRACT",
     payload: 80
 })
+
+store.dispatch({
+    type: "SET_AGE",
+    payload: 30
+})
+
+

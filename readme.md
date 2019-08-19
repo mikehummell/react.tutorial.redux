@@ -72,3 +72,21 @@ state = {
 };
 ```
 
+## Multibe Reduce
+
+Mutliple reducer can be sperated. e.g per topics. the action ty0e must be unique. 
+It create subset of state. 
+```javascript
+const store = createStore(combineReducers({matReducer, userReducer})); //(reducer, InitalState)
+```
+Inital state can be added directly to the reducer
+```javascript
+
+const userReducer = (state = {
+    name: "Max", age: 27
+}, action) => {
+    switch (action.type) {
+        case "SET_NAME":
+            ...
+```
+
