@@ -1,46 +1,14 @@
-// import React from "react";
-// import {render} from "react-dom";
 
-// import { User } from './components/User';
-// import { Main } from './components/Main';
-
-// class App extends React.Component {
-//     constructor() {
-//         super();
-//         this.state = {
-//             username: "Max"
-//         };
-//     }
-
-//     changeUsername(newName) {
-//         this.setState({
-//             username: newName
-//         });
-//     }
-
-//     render() {
-//         return (
-//             <div className="container">
-//                 <Main changeUsername={this.changeUsername.bind(this)}/>
-//                 <User username={this.state.username}/>
-//             </div>
-//         );
-//     }
-// }
-
-// render(<App />, window.document.getElementById('app'));
-
+import {render} from "react-dom";
+import React from "react";
 import { createStore, combineReducers, applyMiddleware } from "redux";
-import { maxHeaderSize } from "http";
 import logger from "redux-logger"
+import {Provider} from "react-redux";
+
+import App from "./components/App";
 
 
 
-//REDUCER
-// Takes action and does someting (change the state)
-//takes to arrgument
-//has to return always state
-//default value with inital state
 const matReducer = (state = {
     result: 1,
     lastValues: []
@@ -74,16 +42,15 @@ const userReducer = (state = {
         case "SET_NAME":
             state = {
                 ...state,
-                name: action.playload
+                name: action.payload
+                
             };
-
-            
             break;
         case "SET_AGE":
-                state = {
-                    ...state,
-                    age: action.payload
-                };
+            state = {
+                ...state,
+                age: action.payload
+            };
             break;
     };
     return state;
@@ -109,24 +76,30 @@ store.subscribe(()=> {
 
 //ACTION
 //Send to the store and the store know what to do
-store.dispatch({
-    type: "ADD",
-    payload: 100
-})
+// store.dispatch({
+//     type: "ADD",
+//     payload: 100
+// })
 
-store.dispatch({
-    type: "ADD",
-    payload: 22
-})
+// store.dispatch({
+//     type: "ADD",
+//     payload: 22
+// })
 
-store.dispatch({
-    type: "SUBSTRACT",
-    payload: 80
-})
+// store.dispatch({
+//     type: "SUBSTRACT",
+//     payload: 80
+// })
 
-store.dispatch({
-    type: "SET_AGE",
-    payload: 30
-})
+// store.dispatch({
+//     type: "SET_AGE",
+//     payload: 30
+// })
 
 
+render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    window.document.getElementById('app')
+);

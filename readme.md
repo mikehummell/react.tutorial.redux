@@ -116,3 +116,65 @@ const store = createStore(combineReducers(
 ); 
 ```
 
+## Connection Redux with react
+### Inside Index.js
+A Provider which gives the store and can handle acction
+
+```javascript
+import {Provider} from "react-redux";
+
+render(
+    <Provider store={store}>
+        <App />
+    </Provider>,
+    window.document.getElementById('app')
+);
+```
+
+### Inside App.js
+The class is not extern anymore, because the whole class get pass to a function which is then external.
+this.props.setName refer to the action which is linked in mapDispatchToProps
+this.props.user.name is a prop from the redux satat linked in mapStatetoProps
+```javascript
+import {connect} from "react-redux";
+class App extends React.Component {
+    render() {
+        return (
+            <div className="container">
+                <Main changeUsername={() => this.props.setName("Anna")}/>
+                <User username={this.props.user.name}/>
+            </div>
+        );
+    }
+}
+```   
+A function to link the state to the props.
+You can also use only one reducer
+```javascript
+const mapStateToProps = (state) => {
+    return {
+        user: state.userReducer,
+        mat: state.matReducer
+    };
+};
+```
+And the function to link action to props.
+```javascript
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setName: (name) => {
+            dispatch({
+                type: "SET_NAME",
+                payload: name
+            });
+        }
+    };
+};
+```
+And now the magic. Link everything together and export it:
+```javascript
+export default connect(mapStateToProps, mapDispatchToProps)(App);
+```
+
+
+
