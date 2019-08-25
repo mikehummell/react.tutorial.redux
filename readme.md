@@ -193,3 +193,74 @@ export default connect(mapStateToProps, mapDispatchToProps)(App);
 |app/index.js| the render funciton for mapping to the div. Import store and the container |
 |app/store.js | the store itself. import reducers |
 |index.html| Mainpage with the div and the bundle.js import |
+
+
+## Async Action
+
+### Variante 1: With thunk
+
+**install it**
+ npm install redux-thunk --save
+
+**change action**
+Change the return which give a dipatch object back.
+```javascript
+export function setName(name) {
+    return dispatch => {
+        setTimeout(()=> {
+            dispatch({
+                type: "SET_NAME",
+                payload: name
+            });
+        },2000); //simulate server response
+    }
+}
+```
+
+**Add thunk to middleware in the store**
+```javascript
+import thunk from "redux-thunk";
+
+export default createStore(combineReducers(
+    {matReducer, userReducer}),
+    {},
+    applyMiddleware( logger, thunk)
+); 
+```
+### Variante 2: with promis
+**install it**
+npm install redux-promise-middleware --save
+**change action**
+```javascript
+export function setName(name) {
+    return {
+        type: "SET_NAME",
+        payload: new Promise((resolve, reject) => {
+            setTimeout(() => {
+                resolve(name);
+            },2000); //simulate server call
+        })
+    };
+}
+```
+**add middleware to store**
+```javascript
+export default createStore(combineReducers(
+    {matReducer, userReducer}),
+    {},
+    applyMiddleware( logger, thunk, promise)
+); 
+```
+**Change the reducer**
+The middleware promis add automaticly a FULFILLED type when finised. Therefore change a reducer type
+```javascript
+const userReducer = (state = {
+    name: "Max", age: 27
+}, action) => {
+    switch (action.type) {
+        case "SET_NAME_FULFILLED":
+            ...
+```
+
+
+
