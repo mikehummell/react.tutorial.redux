@@ -181,3 +181,15 @@ export default connect(mapStateToProps, mapDispatchToProps)(App);
 |----------------|------------------------------------------------------------|--------------|
 | Component      | Stupide Component -const -have only return                 | -Main -User  |
 | Container      | Intelligente Component -Extend React -have render-function | -App         |
+
+## Split application
+
+| **file** | **description** |
+|----------|-------------|
+|app/actions/xxxActions.js| All action function whicht call the redudcer, for not to have the code in the component 7
+|app/component/componentName.js | Stupid Component function |
+|app/container/App.js |Intelligente Component with the reder function and mapStateToProps & mapDispatchToProps. Import the actions |
+|app/reducers/xxxReducer.js| Reducer code with the logic |
+|app/index.js| the render funciton for mapping to the div. Import store and the container |
+|app/store.js | the store itself. import reducers |
+|index.html| Mainpage with the div and the bundle.js import |
