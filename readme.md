@@ -175,6 +175,9 @@ And now the magic. Link everything together and export it:
 ```javascript
 export default connect(mapStateToProps, mapDispatchToProps)(App);
 ```
+## Container & components
 
-
-
+| **FolderName** | **Descipton**                                              | **Example**  |
+|----------------|------------------------------------------------------------|--------------|
+| Component      | Stupide Component -const -have only return                 | -Main -User  |
+| Container      | Intelligente Component -Extend React -have render-function | -App         |
